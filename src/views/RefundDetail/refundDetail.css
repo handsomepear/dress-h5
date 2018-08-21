@@ -1,0 +1,170 @@
+.order-info {
+  background-color: #fff;
+  padding: 30px 24px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.van-top {
+  padding-top: 55px;
+}
+.info {
+  display: flex;
+  /* margin-bottom: 20px; */
+}
+.info:not(:first-child) {
+  margin-top: 20px;
+}
+.info .pic {
+  width: 128px;
+  height: 128px;
+}
+.info .pic image {
+  width: 100%;
+}
+.info .detail {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.refund-detail {
+  padding-bottom: 200px;
+}
+
+.refund-info {
+  margin-top: 46px;
+  font-size: 28px;
+  line-height: 48px;
+}
+
+.express-btn {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 2px solid #ddd;
+  margin-top: 30px;
+}
+.express-btn .btn:first-child {
+  margin-right: 20px;
+}
+
+.fill-number {
+  width: 100%;
+  padding: 0 24px;
+  font-size: 28px;
+  box-sizing: border-box;
+  margin: 40px 0;
+}
+
+.fill-number .btn {
+  width: 100%;
+}
+
+.question {
+  padding-left: 24px;
+  padding-right: 20px;
+  background-color: #fff;
+}
+.issue-desc {
+  padding: 30px 0;
+  font-size: 28px;
+  line-height: 48px;
+}
+
+/* 凭证 */
+.evidence {
+  padding: 20px 0 30px;
+  border-top: 2px solid #ddd;
+}
+.title {
+  font-size: 28px;
+  line-height: 40px;
+  margin-bottom: 20px;
+}
+
+.evidence-img {
+  display: flex;
+}
+
+.evidence-img image {
+  width: 160px;
+  height: 160px;
+  margin-right: 20px;
+}
+
+.progress {
+  position: relative;
+  padding: 20px 46px 26px 30px;
+  background-color: #fff;
+}
+
+.progress-item {
+  position: relative;
+  padding-left: 26px;
+  padding-bottom: 30px;
+  box-sizing: border-box;
+  border-left: 4px solid #ddd;
+  color: #999;
+}
+.progress-item:last-child {
+  border-left-color: transparent;
+}
+
+.progress-item .dot {
+  position: absolute;
+  left: -20px;
+  top: 0px;
+  content: '';
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: #ddd;
+  border: 10px solid #fff;
+  border-radius: 50%;
+}
+.progress-item span {
+  font-size: 28px;
+  line-height: 40px;
+}
+.progress-item .time {
+  font-size: 24px;
+  line-height: 40px;
+  /* color: rgb(255, 167, 183) */
+}
+
+.progress-item.active .dot {
+  background-color: #ff6480;
+}
+
+.progress-item.active span,
+.progress-item.active .time {
+  color: #ff6480;
+}
+
+.refund-btn {
+  width: 100%;
+  padding: 0 48px;
+  box-sizing: border-box;
+  margin-top: 40px;
+}
+.refund-btn .btn {
+  width: 100%;
+  font-size: 28px;
+}
+
+.customer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  line-height: 34px;
+  margin-top: 40px;
+}
+.customer i {
+  font-size: 30px;
+  margin-right: 13px;
+}
+
+button[plain] {
+  border: none;
+  line-height: 34px;
+}

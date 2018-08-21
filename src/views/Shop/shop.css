@@ -1,0 +1,51 @@
+@import '../../styles/mine.css';
+.van-top {
+  padding-top: 46px;
+}
+.txt {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.store {
+  margin-top: 10px;
+}
+.store-top {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+.loading-con {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: -1;
+  transform: scale(.5)
+}
+
+.loading {
+  width: 200px;
+  height: 50px;
+  background: url('http://image.guang.j.cn/static/imgs/dress/loading.png') no-repeat;
+  animation: loading steps(44) 2s infinite;
+}
+
+@keyframes loading {
+  from {
+    background-position: 0 0; 
+  }
+  to {
+    background-position: -8800px 0;
+  }
+}
+
+.more-loading {
+  width: 100%;
+  text-align: center;
+  line-height: 100px;
+}

@@ -1,0 +1,260 @@
+.van-top {
+  padding-top: 55px;
+}
+.refund {
+  padding-bottom: 100px;
+}
+.order-info {
+  background-color: #fff;
+  padding: 30px 24px;
+  box-sizing: border-box;
+}
+ .info {
+  display: flex;
+  /* margin-bottom: 20px; */
+}
+ .info .pic {
+  width: 128px;
+  height: 128px;
+}
+ .info .pic image {
+  width: 100%;
+}
+.info .detail {
+  flex: 1;
+  margin-left: 20px;
+}
+.detail p {
+  line-height: 36px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.detail div {
+  line-height: 34px;
+}
+/* 退款信息 */
+.refund-info {
+  width: 100%;
+  padding-left: 24px;
+  margin-top: 20px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.reason,
+.money {
+  height: 100px;
+  font-size: 28px;
+  color: #3c3c3c;
+  line-height: 100px;
+}
+.reason {
+  position: relative;
+  border-bottom: 2px solid #ddd;
+}
+.reason-info {
+  padding-right: 60px;
+  display: flex;
+  justify-content: space-between;
+}
+.reason-info .picker {
+  height: 100px;
+  color: #9b9b9b;
+}
+.money text {
+  font-size: 32px;
+}
+
+.reason .triangle .content {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  width: 16px;
+  height: 16px;
+  border: #666 solid;
+  border-width: 2px 2px 0 0;
+  transform: rotate(45deg);
+  margin-top: 11px;
+  margin-left: 10px; 
+}
+
+/* 问题描述 */
+.issue-text {
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  font-size: 28px;
+}
+.issue-desc, .post-img {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 20px 24px 30px;
+  box-sizing: border-box;
+}
+.post-img {
+  padding-bottom: 0;
+}
+.title {
+  font-size: 28px; 
+  color: #3c3c3c;
+  line-height: 40px;
+  margin-bottom: 20px;
+}
+.title text {
+  color: #9b9b9b;
+}
+
+.issue-desc textarea {
+  width: 100%;
+  height: 160px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  font-size: 28px;
+}
+
+/* 上传凭证 */
+
+.post-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.post-btn span {
+  line-height: 34px;
+}
+.post-btn, .proof-img {
+  display: inline-block;
+  width: 160px;
+  height: 160px;
+  box-sizing: border-box;
+  margin-right: 15px;
+  margin-bottom: 20px;
+}
+.proof-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.post-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #9b9b9b;
+  color: #9b9b9b;
+ 
+}
+.post-btn text {
+  margin-top: 10px;
+  font-size: 24px;
+}
+.post-btn i {
+  font-size: 40px;
+  line-height: 48px;
+}
+
+
+
+.quantity {
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  line-height: 100px;
+  border-bottom:2px solid #ddd;
+}
+
+
+.count {
+  display: flex;
+  justify-content: flex-start;
+  width: 156px;
+  height: 48px;
+  color: #999;
+}
+.stockout-tips {
+  width: 94px;
+  height: 36px;
+  background-color: #e2e2e2;
+  border-radius: 4px;
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  line-height: 36px;
+}
+.count div {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.count input {
+  width: 60px;
+  height: 48px;
+  min-height: 48px;
+  line-height: 48px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+
+.get-btn{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.submit-con {
+  width: 100%;
+  text-align: center;
+}
+.submit-btn {
+  width: 700px;
+  height: 90px;
+  position: relative;
+  padding: 0 20px;
+  box-sizing: border-box;
+  margin: 40px auto;
+  border-radius: 90px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+.apply{
+  position: relative;
+  width: 700px;
+  height: 90px;
+  background-color: #FF6480;
+  top: 0;
+  left: 0;
+  color: #fff;
+  line-height: 90px;
+  text-align: center;
+  font-size: 30px;
+  border-radius: 44px;
+}
+
+.apply-con {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;
+}

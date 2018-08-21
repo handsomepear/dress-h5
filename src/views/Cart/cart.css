@@ -1,0 +1,366 @@
+/**index.wxss**/
+
+.cart-empty {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.d-item {
+  padding: 0;
+  margin-top: 20px;
+}
+
+.empty-text {
+  font-size: 32px;
+  line-height: 44px;
+  color: #999;
+  margin-top: 32px;
+}
+
+.cart-list {
+  padding-bottom: 220px;
+}
+
+.go-shopping {
+  width: 200px;
+  height: 88px;
+  line-height: 88px;
+  margin-top: 36px;
+}
+.go-shopping .btn {
+  width: 100%;
+  height: 100%;
+  font-size: 28px;
+  border-radius: 44px;
+}
+.van-bottom {
+  bottom: 50px;
+}
+.cart-total {
+  position: fixed;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  background-color: #fff;
+  z-index: 10;
+}
+
+.total-right {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.get-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.check-all,
+.total-amount {
+  font-size: 28px;
+  /* color: #333; */
+  height: 110px;
+  line-height: 110px;
+  margin-right: 18px;
+}
+.check-all {
+  display: flex;
+}
+.total-amount span {
+  font-size: 32px;
+  color: red;
+}
+
+.settle {
+  width: 210px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  background-color: #ff6480;
+  color: #fff;
+  font-size: 30px;
+  border-radius: none;
+}
+.settle.disabled {
+  background-color: #ccc;
+}
+.store-item {
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+.store-name {
+  display: flex;
+  height: 88px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.check-box {
+  width: 84px;
+  height: 100%;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.name {
+  flex: 1;
+  height: 100%;
+  line-height: 88px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  
+  color: #101010;
+  border-bottom: 2px solid #ddd;
+  box-sizing: border-box;
+}
+.name text {
+  font-size: 28px;
+  
+}
+
+.name i {
+  margin-right: 10px;
+}
+
+.f134 {
+  font-size: 134px;
+}
+
+.item {
+  position: relative;
+}
+.item:first-child {
+  padding-top: 20px;
+}
+.item:last-child {
+  padding-bottom: 20px;
+}
+
+/* 缺货 */
+.stockout {
+  background-color: #f8f8f8;
+  color: #999;
+}
+
+.stockout .title {
+  color: #999;
+}
+.stockout .price {
+  color: #999;
+}
+
+.stockout .wrap {
+  width:100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color:rgba(0,0,0,.6);
+}
+.good-left .image {
+  width: 100%;
+  height: 100%;
+}
+
+.image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.item-wrap {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.good-item {
+  flex: 1;
+  padding-top: 10px;
+  padding-right: 24px;
+  padding-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.good {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.good-left {
+  width: 220px;
+  height: 220px;
+  margin-right: 24px;
+  position:relative;
+}
+
+.good-right {
+  height: 220px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 28px;
+  color: #3c3c3c;
+  line-height: 36px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.good-sku-wrapper {
+  position: relative;
+  height: 34px;
+  margin-top: 10px;
+}
+.good-sku {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  line-height: 34px;
+  font-size: 22px;
+  /* text-align: center; */
+  color: #999;
+  border-radius: 4px;
+  background-color: #f4f4f4;
+  /* margin-top: 12px; */
+  padding: 0 12px;
+  box-sizing: border-box;
+  
+}
+
+.triangle .content {
+  width: 8px;
+  height: 8px;
+  border: #999 solid;
+  border-width: 1px 1px 0 0;
+  transform: rotate(135deg);
+  margin-top: 11px;
+  margin-left: 20px;
+}
+
+.price {
+  font-size: 32px;
+  line-height: 44px;
+  color: #ff6480;
+  margin-top: 10px;
+}
+.good-operation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.count {
+  display: flex;
+  justify-content: flex-start;
+  width: 156px;
+  height: 48px;
+  color: #999;
+  border-radius: 6px;
+}
+.stockout-tips {
+  width: 94px;
+  height: 36px;
+  background-color: #e2e2e2;
+  border-radius: 4px;
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  line-height: 36px;
+}
+.count div {
+  width: 48px;
+  height: 48px;
+  box-sizing: border-box;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.count input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 48px;
+  min-height: 48px;
+  line-height: 48px;
+  box-sizing: border-box;
+  text-align: center;
+  color: #999;
+  font-size: 24px;
+}
+
+.good-operation .operation {
+  display: flex;
+  justify-content: flex-start;
+}
+.good-operation .operation .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(204, 204, 204, 0.15);
+  border-radius: 6px;
+  
+  color: rgb(159, 159, 159);
+}
+.good-operation .operation .delete, .good-operation .operation .collect {
+  /* margin-right: 40px; */
+  padding: 10px 20px;
+}
+.btn .iconfont {
+  font-size: 28px;
+}
+
+.loading-con {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.loading {
+  width: 200px;
+  height: 50px;
+  background: url('http://image.guang.j.cn/static/imgs/dress/loading.png') no-repeat;
+  animation: loading steps(44) 2s infinite;
+}
+
+@keyframes loading {
+  from {
+    background-position: 0 0; 
+  }
+  to {
+    background-position: -8800px 0;
+  }
+}

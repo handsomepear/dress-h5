@@ -1,0 +1,141 @@
+@import '../../styles/mine.css';
+
+#mine {
+  padding-top: 400px;
+}
+
+.van-top {
+  top: 44px;
+}
+.van-bottom {
+  padding-bottom: 56px;
+}
+.mine-top {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  z-index: 10;
+}
+.txt.title {
+  height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.addr i {
+  font-size: 28px;
+}
+
+.like-list .item {
+  padding: 0;
+}
+
+.coder-list .item .title {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  color: #101010;
+  line-height: 60px;
+  border-bottom: 1px #f6f6f6 solid;
+  margin-bottom: 25px;
+}
+.item .name {
+  width: 70%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.btn-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.btn.delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-img {
+  display: block;
+  width: 27px;
+  height: 28px;
+}
+
+.no-more {
+  padding: 20px;
+  text-align: center;
+}
+
+.loading-con {
+  width: 100%;
+  position: absolute;
+  bottom: -100px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  transform: scale(.5)
+}
+
+.user-info text {
+  color: #fff;
+}
+
+
+/* 收藏列表中商品下架 */
+.stockout {
+  background-color: #f8f8f8;
+  color: #999;
+}
+
+.stockout .title {
+  color: #999;
+}
+.stockout .txt {
+  color: #999;
+}
+.stockout  image {
+  /*filter:Gray; -webkit-filter: grayscale(60%);*/
+}
+.stockout .no-product {
+  width: 144px;
+  text-align: center;
+  line-height: 52px;
+  font-size: 28px;
+}
+.img-wrap {
+  height: 372px;
+  position: relative;
+}
+.stockout .wrap {
+  width:100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color:rgba(0,0,0,.6);
+}
+
+button[plain] {
+  border: none;
+  padding: 0;
+}
+
+.loading {
+  width: 200px;
+  height: 50px;
+  background: url('http://image.guang.j.cn/static/imgs/dress/loading.png') no-repeat;
+  animation: loading steps(44) 2s infinite;
+}
+
+@keyframes loading {
+  from {
+    background-position: 0 0; 
+  }
+  to {
+    background-position: -8800px 0;
+  }
+}

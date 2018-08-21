@@ -1,0 +1,40 @@
+.van-checkbox__icon--checked .van-icon {
+  border-color: #ff6480 !important;
+  background-color: #ff6480 !important;
+}
+.van-tabbar-item--active {
+  color: #ff6480 !important;
+}
+
+#mine .van-nav-bar {
+  background-color: #ff6480;
+  color: #fff;
+}
+
+.van-swipe__indicator--active {
+  background-color: #ff6480 !important;
+}
+
+.van-swipe__indicator {
+  background-color: #fff;
+}
+
+.van-radio .van-icon-checked {
+  color: #ff6480 !important;
+}
+
+/* 新建地址的保存按钮 */
+.van-address-edit__buttons {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 40px;
+  box-sizing: border-box;
+}
+
+.van-address-edit__buttons .van-button {
+  border-radius: 46px;
+  background-color: #ff6480;
+  border-color: #ff6480;
+  color: #fff;
+}

@@ -1,0 +1,28 @@
+@import "../../styles/mine.css";
+
+.t {
+  height: 100vh;
+}
+
+.address-list {
+  padding-bottom: 200px;
+  box-sizing: border-box
+}
+
+.add-btn {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 20px 0 50px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.address-action {
+  padding: 15px 10px;
+}
+
+ .no-address .btn-wrap .one {
+  width: 100%;
+}
