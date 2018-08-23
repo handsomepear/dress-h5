@@ -12,6 +12,7 @@
     "postcss-pxtorem": "^4.0.1",
     "postcss-theme-variables": "^1.0.0",
     "precss": "^2.0.0",
+    "qiniu-js": "^2.4.0",
     "vant": "^1.1.15",
     "vue": "^2.5.17",
     "vue-awesome-swiper": "^3.1.3",

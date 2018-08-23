@@ -2,7 +2,7 @@
 </style>
 
 <template>
-  <div id="index">
+  <div id="index" class="van-top">
     <header>
       <van-nav-bar title="首页" fixed left-arrow @click-left="exit"></van-nav-bar>
     </header>
@@ -30,7 +30,7 @@
                     <div class="store-name f22">{{item.shopInfo.title}}</div>
                   </div>
                   <div class="action">
-                    <div class="share" @click="shareHandle">
+                    <div class="share" @click="shareHandle(item.shareImg,item.title,item.id,item.h5ShareImg)">
                       <img src="../../assets/img/share2.png" />
                     </div>
                     <div class="collect" :data-index="index" :data-product-id="item.id" @click="collect(item.id, index)">
@@ -45,13 +45,19 @@
         </van-list>
       </van-pull-refresh>
     </div>
+    <share-panel v-if="showSelfPanel" @hideSharePanel="hideSharePanel" :shareConfig="shareConfig"></share-panel>
   </div>
 </template>
 
 <script>
+import SharePanel from '@/components/SharePanel/SharePanel'
 import { getStream } from '@/api/product'
 import { addFavorite } from '@/api/user'
+import { _getQueryString } from '@/utils/_mm'
 export default {
+  components: {
+    SharePanel
+  },
   data() {
     return {
       isLoading: false, // 下拉刷新
@@ -60,13 +66,15 @@ export default {
       finished: false,
       productList: [],
       isRefreshStream: false,
+      canViewDetail: true,
       its: null,
-      canViewDetail: true
+      showSelfPanel: false,
+      shareConfig: null
     }
   },
   mounted() {
     let that = this
-    // this.login()
+    this.its = this.$route.query.its
     that.$store.commit('SHOW_TABBAR')
     this.getStream()
   },
@@ -74,41 +82,14 @@ export default {
     exit() {
       window.app_interface.onBackPressed()
     },
-    // 登录
-    login() {
-      let that = this
-      this.$store.dispatch('Login').then(() => {
-        
-      })
-      // if (window.app_interface) {
-      //   window.app_interface.getHersUserInfo('getUserInfo')
-      //   window.getUserInfo = function(userInfo) {
-      //     userInfo = JSON.parse(userInfo)
-      //     that.$store.commit('SET_USERINFO', userInfo)
-      //     that.$store
-      //       .dispatch('Login', {
-      //         avatar: userInfo.headUrl,
-      //         gender: 2,
-      //         nickName: userInfo.nickName,
-      //         platform: 2, // 2 代表她社区
-      //         unionId: ''
-      //       })
-      //       .then(() => {
-      //         alert(35)
-      //       })
-      //       .catch(err => {
-      //         alert(err)
-      //       })
-      //   }
-      // }
-    },
     onRefresh() {
       this.isRefreshStream = true
+      this.finished = false
       this.getStream()
     },
     getStream() {
       let that = this
-      getStream()
+      getStream(this.its)
         .then(res => {
           that.its = null
           if (res.data.products.length == 0) {
@@ -148,7 +129,38 @@ export default {
     viewDetail(productId) {
       this.$router.push({ name: 'goodDetail', query: { productId: productId } })
     },
-    shareHandle() {}
+    shareHandle(shareImg, shareTitle, its, h5ShareImg) {
+      let that = this
+      let shareData = {
+        typeId: '',
+        itemId: '',
+        result: '',
+        shareFlags: 31,
+        shareImgUrl: h5ShareImg || ''
+      }
+      if (window.app_interface) {
+        let version = parseFloat(_getQueryString('v'))
+        if (
+          version < 6.8 ||
+          _getQueryString('v') == '6.8.1' ||
+          _getQueryString('v') == '6.9.2' ||
+          _getQueryString('v') == '7.0.2'
+        ) {
+          app_interface.showShareButton(JSON.stringify(shareData))
+        } else {
+          that.showSelfPanel = true
+          that.shareConfig = {
+            shareImg,
+            shareTitle,
+            its,
+            h5ShareImg
+          }
+        }
+      }
+    },
+    hideSharePanel() {
+      this.showSelfPanel = false
+    }
   }
 }
 </script>

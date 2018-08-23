@@ -14,7 +14,7 @@
         </div>
         <div class="good" @click="viewDetail(skuList[0].productId)">
           <div class="good-img">
-            <image :src="skuList[0].img + '?imageslim'" />
+            <img :src="skuList[0].img + '?imageslim'" />
           </div>
           <div class="desc">
             <div class="good-title">
@@ -23,15 +23,15 @@
             </div>
             <div class="company">物流公司：{{logisticsInfo.expressCompany}}</div>
             <div class="code">
-              <text>物流单号：{{logisticsInfo.expressNo}}</text>
-              <div class="copy-btn"  v-clipboard:copy="logisticsInfo.expressNo" v-clipboard:success="onCopy">复制单号</div>
+              <span>物流单号：{{logisticsInfo.expressNo}}</span>
+              <div class="copy-btn" @click.stop  v-clipboard:copy="logisticsInfo.expressNo" v-clipboard:success="onCopy">复制单号</div>
             </div>
           </div>
         </div>
       </div>
       <!-- 物流line -->
       <div class="timeline">
-        <div class="item">
+        <!-- <div class="item">
           <div class="clock">
             <div class="date f26 fc-101">06-14</div>
             <div class="time f24 fc-999">12:36</div>
@@ -43,13 +43,13 @@
             <div class="info-state fc-999">派送中</div>
             <div class="info-main fc-999">北京市海淀区皂居苗派件员：杨亚超 18911559712 正在为您派件</div>
           </div>
-        </div>
+        </div> -->
         <div v-if="traces.length > 0">
           <div class="item" v-for="(item , index) in traces" :key="index">
             <div class="clock">
               <!-- <div class="date f26 fc-101">{{tools.filterDate(item.acceptTime)}}</div> -->
-              <div class="date f26 fc-101">{{tools.strSlice(item.acceptTime,5,10)}}</div>
-              <div class="time f24 fc-999">{{tools.strSlice(item.acceptTime,11,16)}}</div>
+              <div class="date f26 fc-101">{{item.acceptTime | strSlice(5,10)}}</div>
+              <div class="time f24 fc-999">{{item.acceptTime | strSlice(11,16)}}</div>
             </div>
             <div class="icon-con">
               <i class="icon fc-999"></i>
@@ -92,8 +92,8 @@ export default {
     closeModal: function() {
       this.$emit('hideLogisticsModal')
     },
-    // TODO 复制单号
     onCopy(){
+      // e.stopPropagation()
       this.$toast('单号复制成功')
     },
   }

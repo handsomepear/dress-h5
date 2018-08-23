@@ -113,8 +113,10 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  max-height: 200px;
   padding-bottom: 32px;
   border-bottom: 1px solid #ddd;
+  overflow-y: scroll;
 }
 .sku-item {
   height: 60px;

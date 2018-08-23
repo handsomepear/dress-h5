@@ -5,22 +5,26 @@
   <div id="shop" class="van-top">
     <van-nav-bar :title="shopTitle" fixed left-arrow @click-left="navigateBack"></van-nav-bar>
     <div class="store">
-      <div class="store-top">
+      <!-- <div class="store-top">
         <div class="loading-con" v-if="isPullLoading">
           <div class="loading"></div>
         </div>
-      </div>
+      </div> -->
       <div class="list-wrap">
-        <div class="like-list">
-          <div class="item" v-for="item in storeList" :key="item.id" @click="viewDetail(item.id)">
-            <div class="img-wrap">
-              <img class="img" :src="item.imgs[0].url + '?imageslim'" />
-            </div>
-            <div class="txt mt10 fc-black">{{item.title}}</div>
-            <div class="txt mb10 fc-pink">￥{{item.lowPrice}}</div>
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <div class="like-list">
+            <van-list v-model="loading" :finished="finished" @load="loadMoreGood" :immediate-check="false">
+              <div class="item" v-for="item in storeList" :key="item.id" @click="viewDetail(item.id)">
+                <div class="img-wrap">
+                  <img class="img" :src="item.imgs[0].url + '?imageslim'" />
+                </div>
+                <div class="txt mt10 fc-black">{{item.title}}</div>
+                <div class="txt mb10 fc-pink">￥{{item.lowPrice}}</div>
+              </div>
+            </van-list>
           </div>
-        </div>
-        <div class="more-loading">{{hasMore ? '加载中' : '没有更多了'}}</div>
+        </van-pull-refresh>
+        <!-- <div class="more-loading">{{hasMore ? '加载中' : '没有更多了'}}</div> -->
       </div>
     </div>
   </div>
@@ -31,6 +35,9 @@ import { getProductListInShop } from '@/api/product'
 export default {
   data() {
     return {
+      isLoading: false,
+      loading: false,
+      finished: false,
       page: 1,
       pageSize: 10,
       storeList: [],
@@ -40,8 +47,7 @@ export default {
       isPullLoading: false,
       pageRecord: '',
       hasMore: true,
-      isx: false,
-      isNewProductList: true // 是否是新添加的商品列表
+      isNewProductList: false // 是否是新添加的商品列表
     }
   },
   mounted() {
@@ -49,21 +55,46 @@ export default {
     that.$store.commit('HIDE_TABBAR')
     that.shopId = that.$route.query.shopId
     that.shopTitle = that.$route.query.shopTitle
-    getProductListInShop({
-      pageRecord: that.pageRecord,
-      pageSize: that.pageSize,
-      shopId: that.shopId
-    }).then(res => {
-      that.storeList = res.data.products
-      that.shopLogo = res.data.shopInfo.shopLogo
-    })
+    this.getProductListInShop()
   },
   methods: {
-    navigateBack(){
+    getProductListInShop() {
+      let that = this
+      getProductListInShop({
+        pageRecord: that.pageRecord,
+        pageSize: that.pageSize,
+        shopId: that.shopId
+      }).then(res => {
+        if (res.data.nextPageRecord == '') {
+          that.hasMore = false
+          that.finished = true
+        }
+        if (that.isNewProductList) {
+          that.storeList.push.apply(that.storeList, res.data.products)
+          that.loading = false
+        } else {
+          that.isLoading = false
+          that.storeList = res.data.products
+          that.shopLogo = res.data.shopInfo.shopLogo
+        }
+        that.pageRecord = res.data.nextPageRecord
+      })
+    },
+    navigateBack() {
       this.$router.go(-1)
     },
     viewDetail(productId) {
       this.$router.push({ name: 'goodDetail', query: { productId } })
+    },
+    loadMoreGood() {
+      this.isNewProductList = true
+      this.getProductListInShop()
+    },
+    onRefresh() {
+      this.pageRecord = ''
+      this.finished = false
+      this.isNewProductList = false
+      this.getProductListInShop()
     }
   }
 }

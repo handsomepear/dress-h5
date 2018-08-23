@@ -4,8 +4,9 @@
   background-color: #fff;
 }
 .van-page {
-  padding-top: 50px;
+  padding-top: 46px;
 }
+
 .good-swiper {
   /* width: 100%; */
   /* position: relative; */
@@ -343,4 +344,17 @@
 .detail .detail-img {
   display: block;
   width: 100%;
+}
+
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3){
+  .van-page {
+    padding-top: 90px;
+  }
+  .content-side .cart {
+    margin-top: 230px;
+  }
+  .action {
+    padding-bottom: 34px;
+  }
 }

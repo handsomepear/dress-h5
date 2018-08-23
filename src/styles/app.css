@@ -85,5 +85,19 @@
 }
 
 .van-m-top {
-  margin-top: 50px;
+  padding-top: 46px;
+}
+
+.iconfont {
+  font-size: 28px;
+}
+
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3){
+  html, body {
+    height: 100vh; /*1vh=设备高度的1%*/
+  }
+  .van-m-top {
+    padding-top: 90px;
+  }
 }

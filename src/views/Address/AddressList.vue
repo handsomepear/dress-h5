@@ -5,7 +5,7 @@
   <div id="address-list">
     <van-nav-bar title="我的地址" left-arrow @click-left="navigateBack" fixed></van-nav-bar>
     <!-- 地址列表 -->
-    <div class="t van-m-top">
+    <div class="van-m-top">
       <!-- 无收货地址 -->
       <div class="no-address" v-if="!hasAddress">
         <div class="inner">
@@ -87,7 +87,9 @@ export default {
     //获取地址
     getAddressList() {
       let that = this
+      this.$loading.show()
       this.$store.dispatch('GetAddressList').then(() => {
+        that.$loading.hide()
         let defaultAddr = that.addressList.find(item => {
           return item.isDefault == 1
         })

@@ -10,13 +10,15 @@ const getters = {
   jcnuserid: state => state.user.jcnuserid, // 用户的唯一标识
   userInfo: state => state.user.userInfo,
 
-  preOrderInfo: state => state.order.preOrderInfo,
-
   serviceInfo: state => state.server.serviceInfo,
   returnApplyInfo: state => state.server.returnApplyInfo, // 售后信息
   proofUrlList: state => state.server.proofUrlList, 
   returnLogList: state => state.server.returnLogList ,
-  expressArray: state => state.server.expressArr
+  expressArray: state => state.server.expressArr,
+
+  buyAgainList: state => state.order.buyAgainList,
+  buyAgainShop: state => state.order.buyAgainShop
+  
 }
 
 export default getters

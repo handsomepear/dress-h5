@@ -1,0 +1,59 @@
+
+.title {
+  width: 100%;
+  height: 88px;
+  background-color: #2bb336;
+  line-height: 88px;
+  font-size: 30px;
+  color: #fff;
+  text-align: center;
+}
+
+.p1 {
+  font-size: 32px;
+  line-height: 44px;
+  color: #101010;
+  text-align: center;
+  margin-top: 290px;
+  margin-bottom:46px;
+}
+
+.pay-done {
+  margin:0 auto;
+  width: 280px;
+  height: 92px;
+  background: #2BB336;
+  border-radius: 100px;
+  color: #fff;
+  font-size: 30px;
+  line-height: 92px;
+  text-align: center;
+}
+
+.p2 {
+  margin-top:48px;
+  text-align: center;
+  font-size: 28px;
+  line-height: 60px;
+  color: #999;
+}
+.p2 span {
+  color: #ff6480;
+}
+
+.cancel-pay {
+  text-align: center;
+  line-height: 60px;
+  color: #ff6480;
+  font-size: 28px;
+}
+
+.van-top {
+  padding-top: 46px;
+}
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .van-top {
+    padding-top: 90px;
+  }
+}

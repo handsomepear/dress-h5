@@ -38,7 +38,7 @@
       </div>
       <!-- 尺寸 -->
       <div class="size" v-if="sizeList.length > 0">
-        <text class="title">尺寸</text>
+        <span class="title">尺寸</span>
         <div class="list">
           <div class="sku-item" :class="[index == currentSize && !sizeItem.disabled ? 'active' : '',sizeItem.disabled ? 'disabled' : '']" v-for="(sizeItem, index) in sizeList" :key="sizeItem.id" @click="chooseSize(index)">
             {{sizeItem.size}}

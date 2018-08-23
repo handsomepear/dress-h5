@@ -5,11 +5,12 @@
       <van-tabbar-item icon="cart" to="/cart">购物车</van-tabbar-item>
       <van-tabbar-item icon="contact" to="/mine" replace>我的</van-tabbar-item>
     </van-tabbar>
-    <transition :name="'vux-pop-' + (direction === 'forward' ? 'in' : 'out')">
-      <keep-alive>
-        <router-view />
-      </keep-alive>
-    </transition>
+    <!-- <transition :name="'vux-pop-' + (direction === 'forward' ? 'in' : 'out')"> -->
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" />
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" />
+    <!-- </transition> -->
   </div>
 </template>
 
@@ -26,20 +27,21 @@ export default {
   created() {
     let that = this
     // 登录
-    window.appLoginFinish = (status, userId) => {
-      if (status == 200) {
-        that.active = 0
-        window.app_interface.getHersUserInfo('getUserInfo')
-      }
-    }
-    window.app_interface.getHersUserInfo('getUserInfo')
-    window.app_interface.setTitleVisible(0)
-    window.getUserInfo = function(userInfo) {
-      userInfo = JSON.parse(userInfo)
-      if (userInfo.id !== 0) {
-        that.$store.dispatch('Login', userInfo)
-      }
-    }
+    // window.appLoginFinish = (status, userId) => {
+    //   if (status == 200) {
+    //     that.active = 0
+    //     window.app_interface.getHersUserInfo('getUserInfo')
+    //   }
+    // }
+    // window.app_interface.getHersUserInfo('getUserInfo')
+    // window.app_interface.setTitleVisible(0)
+    // window.getUserInfo = function(userInfo) {
+    //   alert(userInfo)
+    //   userInfo = JSON.parse(userInfo)
+    //   if (userInfo.id !== 0) {
+    //     that.$store.dispatch('Login', userInfo)
+    //   }
+    // }
   },
   watch: {
     $route(to, from) {
@@ -58,9 +60,6 @@ export default {
     ...mapState({
       direction: state => state.element.direction
     })
-  },
-  methods: {
-    checkLogin() {}
   }
 }
 </script>

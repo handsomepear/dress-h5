@@ -40,7 +40,6 @@ export default {
     continueStroll() {
       this.$router.replace({ name: 'index' })
     },
-    // TODO 刷新订单列表
     viewOrderList() {
       this.$router.replace({ name: 'mine' })
     }

@@ -175,7 +175,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['cartList'])
+    ...mapGetters(['cartList', 'buyAgainShop', 'buyAgainList'])
   },
   // keep-alive包裹的组件的生命周期，类似于onShow
   activated() {
@@ -189,8 +189,9 @@ export default {
       that.countAllQuantity()
     })
   },
-  deactivated () {
+  deactivated() {
     // 清掉再次购买的商品信息
+    this.$loading.hide()
   },
   methods: {
     navigateBack() {
@@ -220,7 +221,39 @@ export default {
       that.isAllSelected = that.checkStoreSelect(cartList.filter(storeItem => !storeItem.storeDisabled))
     },
     // TODO 是不是需要放到vuex中
-    setDefaultChecked() {},
+    setDefaultChecked() {
+      let that = this
+      var buyAgainList = this.buyAgainList // 再次购买的商品列表
+      var buyAginShop = this.buyAgainShop
+      if (!buyAgainList && !buyAginShop) {
+        return
+      }
+      // 找到当前购买的商店信息
+      var store = this.cartList.find(storeItem => {
+        return storeItem.shopId == buyAginShop.id
+      })
+      if (!store) {
+        return
+      }
+      store.productSkuInfoList.forEach(oItem => {
+        buyAgainList.forEach(nItem => {
+          if (
+            oItem.productSku.id == nItem.skuId &&
+            oItem.productSku.inventory > 0 &&
+            oItem.productSku.status >= 1
+          ) {
+            oItem.checked = true
+          }
+        })
+      })
+      // 检测库存 设置店铺的选中状态
+      var canSelectList = store.productSkuInfoList.filter(function(goodItem) {
+        return goodItem.productSku.inventory > 0 && goodItem.productSku.status >= 1
+      })
+      store.checked = this.checkStoreSelect(canSelectList)
+      this.isAllSelected = this.checkStoreSelect(this.cartList.filter(storeItem => !storeItem.storeDisabled))
+      this.countAllQuantity()
+    },
     // 监测购物车是不是空的
     checkCartEmpty(cartList) {
       if (cartList instanceof Array) {
@@ -295,10 +328,7 @@ export default {
             skuId: goodItem.productSku.id
           })
         })
-        this.$store.dispatch('PreOrder', paramList).then(() => {
-          that.$loading.hide()
-          that.$router.push({ name: 'settlement' })
-        })
+        that.$router.push({ name: 'settlement',query: {skuInfo: encodeURIComponent(JSON.stringify(paramList))} })
       }
     },
     // 选择某个商品
@@ -321,7 +351,6 @@ export default {
     // 监测选中状态
     checkStoreSelect: function(list) {
       if (list.length) {
-        // todo 这里遍历可选的商品或者店铺列表会不会更好
         return list.every(function(item) {
           return item.checked
         })
@@ -434,7 +463,9 @@ export default {
         }
         console.log(that.checkStoreSelect(canSelectList))
         that.cartList[storeIndex].checked = that.checkStoreSelect(canSelectList)
-        that.isAllSelected = that.checkStoreSelect(that.cartList.filter(storeItem => !storeItem.storeDisabled))
+        that.isAllSelected = that.checkStoreSelect(
+          that.cartList.filter(storeItem => !storeItem.storeDisabled)
+        )
         that.countAllQuantity()
         that.$toast(msg)
       })
@@ -445,7 +476,7 @@ export default {
       var currentList = this.cartList[storeIndex].productSkuInfoList
       addFavorite(productId)
         .then(res => {
-          that.deleteGood(skuId, storeIndex, skuIndex, '移除收藏夹成功')
+          that.deleteGood(skuId, storeIndex, skuIndex, '移入收藏夹成功')
         })
         .catch(err => {
           that.$toast('移入收藏夹失败')
@@ -485,14 +516,17 @@ export default {
         productSkuInfo.oldProductSkuId = oldProductSkuId
       }
       this.$loading.show()
-      this.$store.dispatch('AddCart', productSkuInfo).then(() => {
-        that.$loading.hide()
-        that.$store.dispatch('GetCartList')
-        that.$toast('添加购物车成功')
-        that.hideSkuModal()
-      }).catch(() => {
-        that.$loading.hide()
-      })
+      this.$store
+        .dispatch('AddCart', productSkuInfo)
+        .then(() => {
+          that.$loading.hide()
+          that.$store.dispatch('GetCartList')
+          that.$toast('添加购物车成功')
+          that.hideSkuModal()
+        })
+        .catch(() => {
+          that.$loading.hide()
+        })
     },
     hideSkuModal() {
       this.isShowSkuModal = false

@@ -1,20 +1,31 @@
 @import '../../styles/mine.css';
 
+
 #mine {
-  padding-top: 400px;
+  padding-top: 380px;
 }
 
-.van-top {
-  top: 44px;
-}
 .van-bottom {
   padding-bottom: 56px;
 }
+
 .mine-top {
   width: 100%;
   position: fixed;
   left: 0;
+  top: 80px;
   z-index: 10;
+}
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .van-top {
+    top: 88px;
+  }
+  #mine {
+    padding-top: 480px
+  }
+  .van-bottom {
+    padding-bottom: 80px;
+  }
 }
 .txt.title {
   height: 80px;

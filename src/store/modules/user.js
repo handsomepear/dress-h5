@@ -15,10 +15,11 @@ const user = {
     editAddrInfo: {}, // 修改地址信息
     orderAddress: null, // 下订单的时候的地址信息
     addressList: [], // 地址列表
-    // userInfo: {id: 17192},
-    userInfo: null,
-    jcnuserid: null
-  },
+    // userInfo: { id: 17192 },
+    // jcnuserid: 17192
+    // userInfo: null,
+    // jcnuserid: null
+  }, 
 
   mutations: {
     // 设置用户信息
@@ -58,9 +59,9 @@ const user = {
         commit('SET_USERINFO', userInfo)
         commit('SET_JCNUSERID', userInfo.id)
         commitUserInfo({
-          avatar: userInfo.headUrl,
+          avatar: userInfo.headerUrl || '',
           gender: 2,
-          nickName: userInfo.nickName,
+          nickName: userInfo.nickName || '',
           platform: 2,
           unionId: ''
         })

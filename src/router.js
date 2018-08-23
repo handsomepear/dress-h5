@@ -13,7 +13,7 @@ let router = new Router({
     {
       path: '/index',
       name: 'index',
-      meta: { requireAuth: false },
+      meta: { requireAuth: false, keepAlive: true },
       component: resolve => {
         require(['@/views/Index/Index.vue'], resolve)
       }
@@ -21,7 +21,7 @@ let router = new Router({
     {
       path: '/cart',
       name: 'cart',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: true },
       component: resolve => {
         require(['@/views/Cart/Cart.vue'], resolve)
       }
@@ -29,7 +29,7 @@ let router = new Router({
     {
       path: '/mine',
       name: 'mine',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: true },
       component: resolve => {
         require(['@/views/Mine/Mine.vue'], resolve)
       }
@@ -37,7 +37,7 @@ let router = new Router({
     {
       path: '/goodDetail',
       name: 'goodDetail',
-      meta: { requireAuth: false },
+      meta: { requireAuth: false, keepAlive: true },
       component: resolve => {
         require(['@/views/GoodDetail/GoodDetail.vue'], resolve)
       }
@@ -45,7 +45,7 @@ let router = new Router({
     {
       path: '/shop',
       name: 'shop',
-      meta: { requireAuth: false },
+      meta: { requireAuth: false, keepAlive: true },
       component: resolve => {
         require(['@/views/Shop/Shop.vue'], resolve)
       }
@@ -53,7 +53,7 @@ let router = new Router({
     {
       path: '/address',
       name: 'address',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: true },
       component: resolve => {
         require(['@/views/Address/AddressList.vue'], resolve)
       }
@@ -61,7 +61,7 @@ let router = new Router({
     {
       path: '/addAddress',
       name: 'addAddress',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: true },
       component: resolve => {
         require(['@/views/Address/AddAddress.vue'], resolve)
       }
@@ -69,7 +69,7 @@ let router = new Router({
     {
       path: '/settlement',
       name: 'settlement',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: true },
       component: resolve => {
         require(['@/views/Settlement/Settlement.vue'], resolve)
       }
@@ -77,7 +77,7 @@ let router = new Router({
     {
       path: '/orderDetail',
       name: 'orderDetail',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: true },
       component: resolve => {
         require(['@/views/OrderDetail/OrderDetail.vue'], resolve)
       }
@@ -85,7 +85,7 @@ let router = new Router({
     {
       path: '/result',
       name: 'result',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: true },
       component: resolve => {
         require(['@/views/PayResult/PayResult.vue'], resolve)
       }
@@ -93,7 +93,7 @@ let router = new Router({
     {
       path: '/refund',
       name: 'refund',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: false },
       component: resolve => {
         require(['@/views/Refund/Refund.vue'], resolve)
       }
@@ -101,7 +101,7 @@ let router = new Router({
     {
       path: '/refundDetail',
       name: 'refundDetail',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: true },
       component: resolve => {
         require(['@/views/RefundDetail/RefundDetail.vue'], resolve)
       }
@@ -109,9 +109,17 @@ let router = new Router({
     {
       path: '/express',
       name: 'express',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, keepAlive: true },
       component: resolve => {
         require(['@/views/Express/Express.vue'], resolve)
+      }
+    },
+    {
+      path: '/resultCheck',
+      name: 'resultCheck',
+      meta: { requireAuth: false, keepAlive: true },
+      component: resolve => {
+        require(['@/views/ResultCheck/ResultCheck.vue'], resolve)
       }
     }
   ]
@@ -125,25 +133,26 @@ let historyCount = history.getItem('count') * 1 || 0
 history.setItem('/', 0)
 
 router.beforeEach(function(to, from, next) {
-  const toIndex = history.getItem(to.path)
-  const fromIndex = history.getItem(from.path)
-  if (toIndex) {
-    if (
-      !fromIndex ||
-      parseInt(toIndex, 10) > parseInt(fromIndex, 10) ||
-      (toIndex === '0' && fromIndex === '0')
-    ) {
-      store.commit('UPDATE_DIRECTION', { direction: 'forward' })
-    } else {
-      store.commit('UPDATE_DIRECTION', { direction: 'reverse' })
-    }
-  } else {
-    ++historyCount
-    history.setItem('count', historyCount)
-    to.path !== '/' && history.setItem(to.path, historyCount)
-    store.commit('UPDATE_DIRECTION', { direction: 'forward' })
-  }
+  // const toIndex = history.getItem(to.path)
+  // const fromIndex = history.getItem(from.path)
+  // if (toIndex) {
+  //   if (
+  //     !fromIndex ||
+  //     parseInt(toIndex, 10) > parseInt(fromIndex, 10) ||
+  //     (toIndex === '0' && fromIndex === '0')
+  //   ) {
+  //     store.commit('UPDATE_DIRECTION', { direction: 'forward' })
+  //   } else {
+  //     store.commit('UPDATE_DIRECTION', { direction: 'reverse' })
+  //   }
+  // } else {
+  //   ++historyCount
+  //   history.setItem('count', historyCount)
+  //   to.path !== '/' && history.setItem(to.path, historyCount)
+  //   store.commit('UPDATE_DIRECTION', { direction: 'forward' })
+  // }
   if (to.meta.requireAuth) {
+    // window.app_interface.getHersUserInfo('getUserInfo')
     if (!store.getters.userInfo || store.getters.userInfo.id == 0) {
       Dialog.confirm({
         title: '未登录会影响正常下单、收藏等操作哦',

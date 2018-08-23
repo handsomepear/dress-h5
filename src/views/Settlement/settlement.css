@@ -2,8 +2,9 @@
   padding-bottom: 120px;
 }
 .van-top {
-  padding-top: 55px;
+  padding-top: 46px;
 }
+
 .address-container {
   background-color: #fff;
 }
@@ -215,4 +216,15 @@
   width: 210px;
   height: 100px;
   line-height: 100px;
+}
+
+
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3){
+  .van-top {
+    padding-top: 90px;
+  }
+  .pay-container {
+    padding-bottom: 34px;
+  }
 }

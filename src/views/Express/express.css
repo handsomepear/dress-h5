@@ -1,6 +1,12 @@
 .van-top {
-  padding-top: 55px;
+  padding-top: 46px;
 }
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3){
+  .van-top {
+    padding-top: 90px;
+  }
+}
+
 
 .order-info {
   background-color: #fff;

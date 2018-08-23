@@ -8,7 +8,6 @@
     <div v-if="orderDetail" class="van-top">
       <div class="order-detail-container">
         <div class="coder-list">
-          <!-- <block class="t" wx:for="{{coderList}}" wx:key="{{item.id}}" wx:for-item="item"> -->
           <div class="item mb20">
             <div class="title f28">
               <div class="title-name" @click="goStore(orderDetail.shop.id, orderDetail.shop.name)">
@@ -30,7 +29,7 @@
               </div>
             </div>
             <div class="goods">
-              <div class="info mb20" v-for="one in orderDetail.skuList" :key="one.id" data-product-id="one.productId" @click="viewDetail(one.productId)">
+              <div class="info mb20" v-for="one in orderDetail.skuList" :key="one.id" @click="viewDetail(one.productId)">
                 <div class="pic">
                   <img class="t" :src='one.img + "?imageslim"' mode="widthFix" />
                 </div>
@@ -47,10 +46,9 @@
                       <span>{{one.quantity}}</span>
                     </span>
                   </div>
-
                   <div v-if="(orderDetail.afterSaleStatus == -1) && (orderDetail.status != 6) && (orderDetail.status != 1)">
                     <div class="total tr" v-if="one.afterSaleStatus == -1">
-                      <div class="btn btn-small btn-info" data-order-id="orderDetail.id" data-order-no="orderDetail.orderNo" data-sku-info="one" @click.stop="applyServiceSingle(orderDetail.id, orderDetail.orderNo, one)">
+                      <div class="btn btn-small btn-info" @click.stop="applyServiceSingle(orderDetail.id, orderDetail.orderNo, one)">
                         申请售后
                       </div>
                     </div>
@@ -73,7 +71,6 @@
               <span class="fc-pink f32">￥{{orderDetail.price}}元</span>
             </div>
           </div>
-          <!-- </block> -->
         </div>
       </div>
       <!-- 售后状态 -->
@@ -82,7 +79,7 @@
           订单状态：
           <span class="fc-pink">系统原因导致创建订单失败</span>
         </div>
-        <div wx:else @click="viewAllService" class="service-state">
+        <div v-else @click="viewAllService" class="service-state">
           售后状态：
           <span class="fc-pink" v-if="orderDetail.afterSaleStatus == 0">审核中</span>
           <span class="fc-pink" v-if="orderDetail.afterSaleStatus == 1">退款中</span>
@@ -99,8 +96,7 @@
         <div class="consignee">
           收货人：
           <span class="name">{{orderDetail.addressInfo.name || ''}}</span>
-          <!-- TODO 过滤电话号 -->
-          <span class="tel" v-if="orderDetail.addressInfo.tel">{{orderDetail.addressInfo.tel || ''}} </span>
+          <span class="tel" v-if="orderDetail.addressInfo.tel">{{orderDetail.addressInfo.tel | hideTelNumber}}</span>
         </div>
         <div class="address">
           {{orderDetail.addressInfo.addrProvince}} {{orderDetail.addressInfo.addrCity}} {{orderDetail.addressInfo.addrDistrict}} {{orderDetail.addressInfo.addrDetail}}
@@ -115,22 +111,22 @@
       </div>
       <!-- action -->
       <div>
-        <div class="order-action" v-if="orderDetail.status == 2" :style="{paddingBottom: isx ? '34px' : '0'}">
-          <div class="btn btn-small btn-info mr20" @click="divLogistics">查看物流</div>
+        <div class="order-action" v-if="orderDetail.status == 2">
+          <div class="btn btn-small btn-info mr20" @click="viewLogistics">查看物流</div>
           <div class="btn btn-small btn-pink" @click="showReceiptModal">确认收货</div>
         </div>
-        <div class="order-action" v-if="orderDetail.status == 3 || orderDetail.status == 5 || orderDetail.status == 6" :style="{paddingBottom: isx ? '34px' : '0'}">
+        <div class="order-action" v-if="orderDetail.status == 3 || orderDetail.status == 5 || orderDetail.status == 6">
           <div class="btn btn-small btn-info mr20" @click="buyAgain">再次购买</div>
         </div>
         <div v-if="!orderDetail.duringAfterSale || orderDetail.status != 6">
-          <div class="order-action" v-if="orderDetail.status == 1 && orderDetail.afterSaleStatus == -1" :style="{paddingBottom: isx ? '34px' : '0'}">
+          <div class="order-action" v-if="orderDetail.status == 1 && orderDetail.afterSaleStatus == -1">
             <div class="btn btn-small btn-info mr20" @click="returnHandle">退款</div>
           </div>
         </div>
       </div>
       <!-- refund modal -->
       <div class="refund-modal-wrap" @click="hideRefundModal" v-if="isShowRefundModal">
-        <div class="refund-modal" @click.stop="stopPropagation">
+        <div class="refund-modal" @click.stop>
           <!-- 仅退款 -->
           <div class="refund-only refund" @click="applyService(1)">
             <div class="title">
@@ -167,9 +163,13 @@
 </template>
 
 <script>
+import LogisticsModal from '@/components/LogisticsModal/LogisticsModal'
 import { orderDetail, queryLogistics, confirmReceive } from '@/api/order'
 import { batchAddCart } from '@/api/user'
 export default {
+  components: {
+    LogisticsModal
+  },
   data() {
     return {
       isShowRefundModal: false,
@@ -177,43 +177,7 @@ export default {
       logisticsInfo: null,
       orderId: null,
       serviceInfo: null,
-      isx: false,
-      orderDetail: {
-        price: '62',
-        orderNo: '201808031434010001002',
-        skuList: [
-          {
-            color: '白色',
-            id: 463,
-            skuId: 19714,
-            img: 'https://weappstatic1.j.cn/img/mrxk/180731/1021/7ec4c45c946811e8.jpg',
-            price: '62',
-            quantity: 1,
-            size: 'XS',
-            title: '韩都衣舍2018夏装新款女装韩版宽松印花镂空上衣短袖T恤KY0056湲',
-            productId: 4205,
-            afterSaleStatus: -1
-          }
-        ],
-        quantity: 1,
-        status: 5,
-        shop: { id: 2, name: '韩都衣舍' },
-        id: 463,
-        duringAfterSale: false,
-        afterSaleStatus: 2,
-        payTime: '2018-08-03 14:34:07',
-        sendTime: '',
-        receiveTime: '',
-        addressInfo: {
-          id: 22,
-          addrProvince: '北京市',
-          addrCity: '北京市',
-          addrDistrict: '昌平区',
-          addrDetail: '回龙观新龙城3期36E号楼1单元101',
-          name: '翟培伸',
-          tel: '17801111226'
-        }
-      }
+      orderDetail: null
     }
   },
   activated() {
@@ -251,12 +215,14 @@ export default {
       let serviceInfo = this.serviceInfo ? this.serviceInfo : this.orderDetail
       serviceInfo.serviceType = type
       this.$store.commit('SET_SERVICE_INFO', serviceInfo) // 保存售后的商品信息
+      this.hideRefundModal()
+      this.$router.push({name: 'refund'})
     },
     // 未发货退款
     returnHandle() {
       let serviceInfo = {}
       if (this.orderDetail.status == 1) {
-        serviceInfo = orderDetail
+        serviceInfo = this.orderDetail
         serviceInfo.serviceType = 0
         this.$store.commit('SET_SERVICE_INFO', serviceInfo)
         this.$router.push({ name: 'refund' })
@@ -264,24 +230,23 @@ export default {
         this.showRefundModal()
       }
     },
-    hideLogisticsModal(){
+    hideLogisticsModal() {
       this.isShowLogisticsModal = false
     },
     // 查看物流
     viewLogistics() {
       let that = this
       this.$loading.show()
-      queryLogistics(
-        this.orderId,
-        res => {
-          this.$loading.hide()
+      queryLogistics(this.orderId)
+        .then(res => {
+          that.$loading.hide()
+          console.log(res.data)
           that.logisticsInfo = res.data
           that.isShowLogisticsModal = true
-        },
-        err => {
-          this.$loading.hide()
-        }
-      )
+        })
+        .catch(err => {
+          that.$loading.hide()
+        })
     },
     // 确认收货弹窗
     showReceiptModal() {
@@ -314,8 +279,8 @@ export default {
       this.showRefundModal()
       var serviceInfo = {}
       serviceInfo.skuList = [skuInfo]
-      serviceInfo.id = dataset.orderId
-      serviceInfo.orderNo = dataset.orderNo
+      serviceInfo.id = orderId
+      serviceInfo.orderNo = orderNo
       serviceInfo.isSingle = true // 单商品售后
       this.serviceInfo = serviceInfo
     },

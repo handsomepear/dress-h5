@@ -8,7 +8,7 @@
       <van-nav-bar title="申请售后" fixed left-arrow @click-left="navigateBack"></van-nav-bar>
     </header>
     <!-- 退款的订单信息 -->
-    <div class="order-info" v-for="item in serviceInfo.skuList" :key="item.id" v-if="serviceInfo">
+    <div class="order-info" v-if="serviceInfo" v-for="item in serviceInfo.skuList" :key="item.id">
       <div class="info">
         <div class="pic">
           <img class="t" :src='item.img + "?imageslim"' />
@@ -40,7 +40,7 @@
         申请件数：
         <div class="count">
           <div class="substract" @click="subtractNum">-</div>
-          <input type="number" name="quantity" value="1" @blur="quantityChange" />
+          <input type="number" v-model="quantity" @blur="quantityChange" />
           <div class="add" @click="increaseNum">+</div>
         </div>
         <span class="f28" style="color: #9b9b9b">（最多可申请{{serviceInfo.skuList[0].quantity}}件）</span>
@@ -73,7 +73,7 @@
           <!-- <input type="file"> -->
           <i class="iconfont icon-camera"></i>
           <span>选择文件</span>
-          <input type="file" id="upload-btn" @change="upladsImgChange" mutiple="mutiple" accept="image/png,image/jpg" capture="camera" style="display: none">
+          <input type="file" id="upload-btn" @change="upladsImgChange" accept="image/png,image/jpg" style="display: none">
         </div>
       </div>
     </div>
@@ -86,11 +86,10 @@
   </div>
 </template>
 
-
 <script>
 import { mapGetters } from 'vuex'
 import { addApply } from '@/api/server'
-import { fileUpload } from '@/utils/_mm'
+import fileUpload from '@/utils/_qiniu'
 export default {
   data() {
     return {
@@ -166,7 +165,7 @@ export default {
   computed: {
     ...mapGetters(['serviceInfo'])
   },
-  activated() {
+  mounted() {
     let serviceInfo = this.serviceInfo
     if (serviceInfo) {
       var serviceType = serviceInfo.serviceType
@@ -189,7 +188,7 @@ export default {
       this.calculatePrice()
     }
   },
-  deactivated() {
+  destroyed() {
     this.$store.commit('SET_SERVICE_INFO', null)
   },
   methods: {
@@ -231,35 +230,53 @@ export default {
     uploadsImg() {
       document.getElementById('upload-btn').click()
     },
-    upladsImgChange(e){
-      console.log(e);
+    upladsImgChange(e) {
+      let that = this
+      let file = e.target.files[0]
+      fileUpload(this, file, function(res) {
+        that.proofImgList.push(res)
+      })
     },
     // 仅退款
-    submitService: function(e) {
+    submitService: function() {
       let that = this
-      var params = e.detail.value
-      if (params.reason === null) {
+      if (this.reason === null) {
         this.$toast('请选择退款原因')
       } else {
         this.$loading.show()
         addApply({
           applyType: that.serviceInfo.serviceType,
-          detailDesc: params.problemDesc, // 问题详细描述
+          detailDesc: that.problemDesc, // 问题详细描述
           orderId: that.serviceInfo.id,
           orderNo: that.serviceInfo.orderNo,
           orderSkuId: that.serviceInfo.isSingle ? that.serviceInfo.skuList[0].id : 0,
           proofUrl: that.proofImgList.join(','),
-          quantity: params.quantity || 0,
+          quantity: that.quantity || 0,
           reasonId: that.reason.id // 退款原因ID
-        }).then(res => {
-          wx.hideLoading()
-          // 提交成功
-          this.$toast('申请成功')
-          setTimeout(() => {
-            that.$router.back()
-          }, 1500)
         })
+          .then(res => {
+            that.$loading.hide()
+            // 提交成功
+            that.$toast('申请成功')
+            setTimeout(() => {
+              that.$router.back()
+            }, 1500)
+          })
+          .catch(err => {
+            that.$loading.hide()
+          })
       }
+    },
+    quantityChange() {
+      if (this.quantity > this.serviceInfo.skuList[0].quantity) {
+        this.$toast(`最多可申请${d.serviceInfo.skuList[0].quantity}件哦`)
+        this.quantity = this.serviceInfo.skuList[0].quantity
+      }
+      if (this.quantity <= 0) {
+        this.$toast('不能再少了哦')
+        this.quantity = 1
+      }
+      this.calculatePrice()
     }
   }
 }

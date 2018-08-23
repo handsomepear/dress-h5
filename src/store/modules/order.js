@@ -1,22 +1,19 @@
 import { orderList, preOrder, commitOrder } from '@/api/order'
+import { _getQueryStringFromUrl } from '@/utils/_mm'
 const order = {
   state: {
-    preOrderInfo: {}, // 未付款的订单信息
     orderList: [],
     buyAgainList: null, // 再次购买的商品SKU列表
     buyAgainShop: null // 再次购买的商品信息
   },
 
   mutations: {
-    SET_PREORDER_INFO: (state, preOrderInfo) => {
-      state.preOrderInfo = preOrderInfo
-    },
     SET_BUYAGAIN_LIST: (state, buyAgainList) => {
       state.buyAgainList = buyAgainList
     },
     SET_BUYAGAIN_SHOP: (state, buyAgainShop) => {
       state.buyAgainShop = buyAgainShop
-    },
+    }
   },
 
   actions: {
@@ -25,8 +22,7 @@ const order = {
       return new Promise((resolve, reject) => {
         preOrder(paramList)
           .then(res => {
-            commit('SET_PREORDER_INFO', res.data.preOrderInfo)
-            resolve()
+            resolve(res.data.preOrderInfo)
           })
           .catch(err => {
             reject(err)
@@ -38,8 +34,9 @@ const order = {
       return new Promise((resolve, reject) => {
         commitOrder(addrId)
           .then(res => {
-            console.log(res)
-            resolve()
+            let mwebUrl = res.data.mwebUrl
+            
+            resolve(mwebUrl)
           })
           .catch(err => {
             reject(err)

@@ -9,9 +9,9 @@
           <van-swipe :loop="false" :vertical="false" style="height: 100%;">
             <!-- vertical style="width: 100%; height: 100%" -->
             <van-swipe-item v-for="item in product.imgs" :key="item.id">
-              <div>
-                <img :src="item.url + '?imageslim'" style="width: 10rem; height: 100%;" />
-              </div>
+              <!-- <div> -->
+              <img :src="item.url + '?imageslim'" style="width: 10rem; height: 100%;" />
+              <!-- </div> -->
             </van-swipe-item>
           </van-swipe>
           <div class="content-side">
@@ -19,7 +19,7 @@
               <img src="../../assets/img/detail-cart.png" />
               <!-- <div wx:if="{{hasCartGoods}}" class="dot"></div> -->
             </div>
-            <div class="share">
+            <div class="share" @click="shareHandle">
               <img src="../../assets/img/detail-share.png" />
             </div>
           </div>
@@ -139,7 +139,7 @@
         </div>
       </div>
       <!-- 商品操作 -->
-      <div class="action van-hairline--top" :style="{'paddingBottom': isx ? '34px' : '0'}">
+      <div class="action van-hairline--top">
         <div class="action-l">
           <div class="action-store" @click="goStore(product.shopInfo.id, product.shopInfo.title)">
             <i class="iconfont icon-shop"></i>
@@ -161,6 +161,7 @@
         </div>
       </div>
       <sku-modal v-if="isShowSkuModal" @hideSkuModal="hideSkuModal" @addToCart="addToCart" @buyNow="buyNow" :skuInfo="product.skus" :type="type"></sku-modal>
+      <share-panel v-if="showSelfPanel" @hideSharePanel="hideSharePanel" :shareConfig="shareConfig"></share-panel>
       <!-- <auth-modal wx:if="{{isShowAuthModal}}" bindbtnAuthHandle="btnAuthHandle" bindhideAuthModal="hideAuthModal"></auth-modal> -->
     </div>
   </div>
@@ -168,14 +169,18 @@
 
 <script>
 import SkuModal from '@/components/SkuModal/SkuModal'
+import SharePanel from '@/components/SharePanel/SharePanel'
+import { _getQueryString } from '@/utils/_mm'
 import { getProductDetail } from '@/api/product'
 import { addFavorite } from '@/api/user'
 export default {
   components: {
-    SkuModal
+    SkuModal,
+    SharePanel
   },
   data() {
     return {
+      showSelfPanel: false, // 是否显示自定义分享面板
       isSoldOut: false,
       isShowInfoModal: false,
       isShowServiceModal: false,
@@ -183,8 +188,8 @@ export default {
       isShowAuthModal: false, // 授权弹窗
       product: null,
       type: 'cart',
-      isx: false,
-      isExitSkuModal: false
+      isExitSkuModal: false,
+      shareConfig: null
     }
   },
   activated() {
@@ -196,6 +201,10 @@ export default {
       that.isSoldOut = res.data.product.status < 1 ? true : false
       that.$loading.hide()
     })
+  },
+  deactivated() {
+    this.$loading.hide()
+    this.hideSkuModal()
   },
   methods: {
     navigateBack() {
@@ -209,6 +218,39 @@ export default {
     },
     viewCart() {
       this.$router.push({ name: 'cart' })
+    },
+    hideSharePanel() {
+      this.showSelfPanel = false
+    },
+    // 分享
+    shareHandle() {
+      let that = this
+      let shareData = {
+        typeId: '',
+        itemId: '',
+        result: '',
+        shareFlags: 31,
+        shareImgUrl: that.product.h5ShareImg || ''
+      }
+      if (window.app_interface) {
+        let version = parseFloat(_getQueryString('v'))
+        if (
+          version < 6.8 ||
+          _getQueryString('v') == '6.8.1' ||
+          _getQueryString('v') == '6.9.2' ||
+          _getQueryString('v') == '7.0.2'
+        ) {
+          app_interface.showShareButton(JSON.stringify(shareData))
+        } else {
+          that.showSelfPanel = true
+          that.shareConfig = {
+            shareImg: that.product.shareImg,
+            shareTitle: that.product.title,
+            its: that.product.id,
+            h5ShareImg: that.product.h5ShareImg
+          }
+        }
+      }
     },
     goStore(shopId, shopTitle) {
       this.$router.push({ name: 'shop', query: { shopId, shopTitle } })
@@ -239,9 +281,9 @@ export default {
     buyNow(skuInfo) {
       let that = this
       this.$loading.show()
-      this.$store.dispatch('PreOrder', [skuInfo]).then(res => {
-        that.$loading.hide()
-        that.$router.push({ name: 'settlement' })
+      that.$router.push({
+        name: 'settlement',
+        query: { skuInfo: encodeURIComponent(JSON.stringify([skuInfo])) }
       })
     },
     showSkuModal(type) {

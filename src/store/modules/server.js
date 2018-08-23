@@ -66,7 +66,6 @@ const server = {
     // 获取售后信息
     GetReturnApplyInfo: ({ commit }, params) => {
       return new Promise((resolve, reject) => {
-        console.log(params)
         getReturnApplyInfo(params)
           .then(res => {
             commit('SET_RETURN_INFO', res.data.returnApplyInfo)

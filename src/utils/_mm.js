@@ -1,8 +1,7 @@
 // 工具类
 import qiniu from './_qiniu'
-import Vue from 'vue'
 import axios from 'axios'
-let vm = new Vue()
+
 
 function accMul(arg1, arg2) {
   if (isNaN(arg1)) {
@@ -76,10 +75,15 @@ export function _getQueryString(name) {
   return null
 }
 
-export function fileUpload(filePath, data, succ, err) {
-  //支服务器拿token,成功后开始七牛上传
-  vm.$loading.show()
+export function _getQueryStringFromUrl(url, name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+  var r = url.split('?')[1].substr(1).match(reg)
+  if (r != null) return unescape(r[2])
+  return null
+}
 
+export function fileUpload(vm,filePath, data, succ, err) {
+  //支服务器拿token,成功后开始七牛上传
   let isTimeout = false
   let uploadTimeout = setTimeout(function() {
     isTimeout = true
@@ -90,7 +94,7 @@ export function fileUpload(filePath, data, succ, err) {
   axios({
     method: 'post',
     data: data,
-    url: 'https://kryptontest.j.cn/common/getUploadInfo'
+    url: 'https://kryptontest.j.cn/api/common/getUploadInfo'
   }).then(jsonToken => {
     qiniu.upload(
       filePath,

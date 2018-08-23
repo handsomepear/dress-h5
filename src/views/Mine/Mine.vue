@@ -65,7 +65,7 @@
         </div>
         <div class="coder-list" v-else>
           <van-list class="t" v-if="hasOrder" v-model="isLoadingMoreOrder" :finished="!hasMoreOrder" @load="onLoadOrderList" :immediate-check="immediateCheck">
-            <van-cell class="item mb20" v-for="item in orderList" :key="item.id">
+            <van-cell class="item mb20" v-for="(item, index) in orderList" :key="item.id">
               <div class="title">
                 <div class="name f28" :data-shop-id="item.shop.id" :data-shop-title="item.shop.name" @click="goStore(item.shop.id, item.shop.name)">
                   <i class="iconfont icon-shop f26 mr10"></i>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="detail">
                       <div class="f28 mb10">{{one.title}}</div>
-                      <div class="fc-999 mb10">
+                      <div class="fc-999 mb10" style="line-height:1">
                         <span class="f24">颜色:{{one.color}};</span>
                         <span class="f24">尺码:{{one.size}};</span>
                       </div>
@@ -153,9 +153,11 @@ import { getFavoritesList, batchAddCart, cancelFavorite, addCart } from '@/api/u
 import { mapGetters } from 'vuex'
 
 import SkuModal from '@/components/SkuModal/SkuModal'
+import LogisticsModal from '@/components/LogisticsModal/LogisticsModal'
 export default {
   components: {
-    SkuModal
+    SkuModal,
+    LogisticsModal
   },
   data() {
     return {
@@ -180,7 +182,6 @@ export default {
       hasMoreOrder: true,
       isShowSkuModal: false,
       isExitSkuModal: false,
-      isx: '',
       orderList: [], // 订单列表
       likeList: [], // 收藏列表
       currentProduct: {},
@@ -206,6 +207,8 @@ export default {
     this.getOrderList()
   },
   activated() {
+    this.isRefreshFavorite = true 
+    this.isRefreshOrder = true
     this.showTab()
   },
   methods: {
@@ -253,7 +256,7 @@ export default {
           } else {
             that.orderList.push.apply(that.orderList, res.data.list)
           }
-          if (res.data.nextPageRecord == '') {
+          if (!res.data.nextPageRecord) {
             that.hasMoreOrder = false
           }
           that.isLoadingMoreOrder = false // 控制 加载中UI 的显示
@@ -397,9 +400,10 @@ export default {
     // 查看物流
     queryLogistics: function(orderId, index) {
       let that = this
-      this.currentSkuList = this.orderList[index].skuIndex
+      console.log(index);
+      this.currentSkuList = this.orderList[index].skuList
       this.$loading.show()
-      queryLogistics(orderid)
+      queryLogistics(orderId)
         .then(res => {
           that.$loading.hide()
           that.logisticsInfo = res.data

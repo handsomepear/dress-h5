@@ -5,8 +5,15 @@
   margin-bottom: 20px;
 }
 .van-top {
-  padding-top: 55px;
+  padding-top: 46px;
 }
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .van-top {
+    padding-top: 90px;
+  }
+}
+
 .info {
   display: flex;
   /* margin-bottom: 20px; */
@@ -24,6 +31,9 @@
 .info .detail {
   flex: 1;
   margin-left: 20px;
+}
+.info .detail p {
+  line-height: 36px;
 }
 
 .refund-detail {
@@ -85,7 +95,7 @@
   display: flex;
 }
 
-.evidence-img image {
+.evidence-img img {
   width: 160px;
   height: 160px;
   margin-right: 20px;

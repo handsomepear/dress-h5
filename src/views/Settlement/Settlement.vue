@@ -17,9 +17,7 @@
             <div class="address" v-else>
               <div class="recipients-info">
                 <span class="name">{{defaultAddress.name}}</span>
-                <!-- <span class="tel">{{tools.hideTelNumber(address.tel)}}</span> -->
-                <!-- 过滤用户手机号中四位 -->
-                <span class="tel">{{defaultAddress.tel}}</span>
+                <span class="tel">{{defaultAddress.tel | hideTelNumber}}</span>
               </div>
               <div class="address-info">
                 <i class="iconfont icon-position-2"></i>
@@ -84,7 +82,8 @@
     <text>《用户购买协议》</text>
   </div> -->
       <!-- 支付 -->
-      <div class="pay-container" :style="{paddingBottom: isx ? '34px' : '0'}">
+      <div class="pay-container">
+        <div v-if="isShow">hello</div>
         <div class="money">
           实付金额：
           <span class="fc-pink">￥{{preOrderInfo.feeInfo.amount}}</span>
@@ -105,17 +104,19 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      isShow: false,
       money: null,
       formIds: [],
       canPay: true,
       isx: false,
       chooseAddress: null,
       addressList: null,
-      defaultAddress: null
+      defaultAddress: null,
+      preOrderInfo: null
     }
   },
   computed: {
-    ...mapGetters(['preOrderInfo', 'orderAddress'])
+    ...mapGetters(['orderAddress'])
   },
   activated() {
     let that = this
@@ -135,6 +136,12 @@ export default {
         that.defaultAddress = that.orderAddress
       }
     })
+    let skuInfo = JSON.parse(decodeURIComponent(this.$route.query.skuInfo))
+    this.$loading.show()
+    this.$store.dispatch('PreOrder', skuInfo).then(preOrderInfo => {
+      that.$loading.hide()
+      that.preOrderInfo = preOrderInfo
+    })
   },
   deactivated() {
     // 清掉下单的信息
@@ -149,9 +156,18 @@ export default {
     },
     wxPay() {
       let that = this
-      this.$store.dispatch('CommitOrder', this.defaultAddress.id).then(res => {
-        that.$router.push({ name: 'settle', query: { amount: that.preOrderInfo.feedInfo.amount, result: 0 } })
-      })
+      if (this.defaultAddress) {
+        this.$loading.show()
+        this.$store.dispatch('CommitOrder', this.defaultAddress.id).then(mwebUrl => {
+          // that.$router.push({ name: 'settle', query: { amount: that.preOrderInfo.feedInfo.amount, result: 0 } })
+          that.$router.push({ name: 'resultCheck', query: { mwebUrl: encodeURIComponent(mwebUrl) } })
+          // that.isShow = true
+          that.$loading.hide()
+        })
+      }else{
+        this.$toast('请设置收货地址')
+      }
+
       // this.$toast('微信支付')
       // let that = this
       // this.canPay = false

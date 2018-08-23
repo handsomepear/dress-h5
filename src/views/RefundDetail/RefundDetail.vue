@@ -12,14 +12,12 @@
               <img class="t" :src='item.img + "?imageslim"' />
             </div>
             <div class="detail">
-              <div class="f28 mb10">{{item.title}}</div>
+              <p class="f28 mb10">{{item.title}}</p>
               <div class="fc-999 mb10">
-                <block class="t">
-                  <span class="f24">
-                    <span v-if="item.color">颜色：{{item.color}}；</span>
-                    <span v-if="item.size">尺码：{{item.size}}</span>
-                  </span>
-                </block>
+                <span class="f24">
+                  <span v-if="item.color">颜色：{{item.color}}；</span>
+                  <span v-if="item.size">尺码：{{item.size}}</span>
+                </span>
               </div>
             </div>
           </div>
@@ -43,7 +41,7 @@
       <!-- 退货进度 -->
       <div class="progress">
         <div class="line"></div>
-        <div class="progress-item" :class="index == 0 ? 'active' : ''" v-for="item in returnLogList" :key="item.id">
+        <div class="progress-item" :class="index == 0 ? 'active' : ''" v-for="(item, index) in returnLogList" :key="item.id">
           <div class="dot"></div>
           <span>{{item.eventDesc}}</span>
           <div class="time">{{item.createTimeStr}}</div>
@@ -79,7 +77,11 @@
 <script>
 import { queryLogistics } from '@/api/server'
 import { mapGetters } from 'vuex'
+import LogisticsModal from '@/components/LogisticsModal/LogisticsModal'
 export default {
+  components: {
+    LogisticsModal
+  },
   data() {
     return {
       isShowLogisticsModal: false,
@@ -120,17 +122,14 @@ export default {
     viewLogistics: function() {
       let that = this
       this.$loading.show()
-      serviceServer.queryLogistics(
-        this.returnApplyInfo.shipmentInfo.id || 1,
-        res => {
+      queryLogistics(
+        this.returnApplyInfo.shipmentInfo.id || 1).then(res => {
           that.$loading.hide()
           that.logisticsInfo = res.data
           that.isShowLogisticsModal = true
-        },
-        err => {
+        }).catch(err => {
           that.$loading.hide()
-        }
-      )
+        })
     },
     hideLogisticsModal: function() {
       this.isShowLogisticsModal = false

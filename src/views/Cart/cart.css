@@ -2,6 +2,8 @@
 
 .cart-empty {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -132,12 +134,13 @@
   border-bottom: 2px solid #ddd;
   box-sizing: border-box;
 }
-.name text {
+.name span {
   font-size: 28px;
   
 }
 
 .name i {
+  font-size: 28px;
   margin-right: 10px;
 }
 
@@ -362,5 +365,14 @@
   }
   to {
     background-position: -8800px 0;
+  }
+}
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3){
+  .cart-list {
+    padding-bottom: 254px;
+  }
+  .van-bottom {
+    bottom: 84px;
   }
 }
