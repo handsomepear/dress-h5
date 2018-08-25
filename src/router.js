@@ -133,6 +133,23 @@ let historyCount = history.getItem('count') * 1 || 0
 history.setItem('/', 0)
 
 router.beforeEach(function(to, from, next) {
+  if (to.meta.requireAuth) {
+    if (!store.getters.userInfo || store.getters.userInfo.id == 0) {
+      Dialog.confirm({
+        title: '未登录会影响正常下单、收藏等操作哦',
+        confirmButtonText: '去登录',
+        cancelButtonText: '取消'
+      })
+        .then(() => {
+          window.app_interface.appLogin(0)
+        })
+        .catch(() => {})
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
   // const toIndex = history.getItem(to.path)
   // const fromIndex = history.getItem(from.path)
   // if (toIndex) {
@@ -151,24 +168,6 @@ router.beforeEach(function(to, from, next) {
   //   to.path !== '/' && history.setItem(to.path, historyCount)
   //   store.commit('UPDATE_DIRECTION', { direction: 'forward' })
   // }
-  if (to.meta.requireAuth) {
-    // window.app_interface.getHersUserInfo('getUserInfo')
-    if (!store.getters.userInfo || store.getters.userInfo.id == 0) {
-      Dialog.confirm({
-        title: '未登录会影响正常下单、收藏等操作哦',
-        confirmButtonText: '去登录',
-        cancelButtonText: '取消'
-      })
-        .then(() => {
-          window.app_interface.appLogin(0)
-        })
-        .catch(() => {})
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
 })
 
 export default router

@@ -158,9 +158,9 @@ export default {
       let that = this
       if (this.defaultAddress) {
         this.$loading.show()
-        this.$store.dispatch('CommitOrder', this.defaultAddress.id).then(mwebUrl => {
+        this.$store.dispatch('CommitOrder', this.defaultAddress.id).then(res => {
           // that.$router.push({ name: 'settle', query: { amount: that.preOrderInfo.feedInfo.amount, result: 0 } })
-          that.$router.push({ name: 'resultCheck', query: { mwebUrl: encodeURIComponent(mwebUrl) } })
+          that.$router.push({ name: 'resultCheck', query: { mwebUrl: encodeURIComponent(res.mwebUrl), orderId: res.orderId } })
           // that.isShow = true
           that.$loading.hide()
         })

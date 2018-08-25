@@ -35,8 +35,7 @@ const order = {
         commitOrder(addrId)
           .then(res => {
             let mwebUrl = res.data.mwebUrl
-            
-            resolve(mwebUrl)
+            resolve({mwebUrl, orderId: res.data.orderId})
           })
           .catch(err => {
             reject(err)

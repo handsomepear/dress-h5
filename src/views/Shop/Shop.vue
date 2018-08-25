@@ -50,7 +50,7 @@ export default {
       isNewProductList: false // 是否是新添加的商品列表
     }
   },
-  mounted() {
+  activated() {
     let that = this
     that.$store.commit('HIDE_TABBAR')
     that.shopId = that.$route.query.shopId

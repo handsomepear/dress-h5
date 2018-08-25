@@ -4,7 +4,7 @@
 
 <template>
   <div id="mine" class="van-bottom">
-    <van-nav-bar title="我的" fixed>我的</van-nav-bar>
+    <van-nav-bar title="我的" fixed left-arrow @click-left="exit"></van-nav-bar>
     <div class="mine-top van-top">
       <div class="toper bg-pink">
         <div class="user-info" @click="doLogin">
@@ -207,11 +207,14 @@ export default {
     this.getOrderList()
   },
   activated() {
-    this.isRefreshFavorite = true 
+    this.isRefreshFavorite = true
     this.isRefreshOrder = true
     this.showTab()
   },
   methods: {
+    exit() {
+      window.app_interface.onBackPressed()
+    },
     doLogin() {
       if (!userInfo) {
         window.app_interface.appLogin(0)
@@ -400,7 +403,7 @@ export default {
     // 查看物流
     queryLogistics: function(orderId, index) {
       let that = this
-      console.log(index);
+      console.log(index)
       this.currentSkuList = this.orderList[index].skuList
       this.$loading.show()
       queryLogistics(orderId)

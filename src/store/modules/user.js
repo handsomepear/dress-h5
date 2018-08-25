@@ -17,9 +17,9 @@ const user = {
     addressList: [], // 地址列表
     // userInfo: { id: 17192 },
     // jcnuserid: 17192
-    // userInfo: null,
-    // jcnuserid: null
-  }, 
+    userInfo: null,
+    jcnuserid: null
+  },
 
   mutations: {
     // 设置用户信息
@@ -66,6 +66,7 @@ const user = {
           unionId: ''
         })
           .then(res => {
+            // window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
             resolve()
           })
           .catch(err => {

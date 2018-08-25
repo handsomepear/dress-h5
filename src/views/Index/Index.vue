@@ -103,9 +103,7 @@ export default {
             that.productList.push.apply(that.productList, res.data.products)
           }
         })
-        .catch(err => {
-          console.log(err)
-        })
+        .catch(err => {})
     },
     loadMoreGood() {
       this.isRefreshStream = false

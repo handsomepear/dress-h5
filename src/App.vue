@@ -20,29 +20,13 @@ export default {
   data() {
     return {
       isShowTabBar: true,
-      active: 0,
-      transitionName: 'slide-left'
+      active: 0
+      // transitionName: 'slide-left'
     }
   },
-  created() {
-    let that = this
-    // 登录
-    // window.appLoginFinish = (status, userId) => {
-    //   if (status == 200) {
-    //     that.active = 0
-    //     window.app_interface.getHersUserInfo('getUserInfo')
-    //   }
-    // }
-    // window.app_interface.getHersUserInfo('getUserInfo')
-    // window.app_interface.setTitleVisible(0)
-    // window.getUserInfo = function(userInfo) {
-    //   alert(userInfo)
-    //   userInfo = JSON.parse(userInfo)
-    //   if (userInfo.id !== 0) {
-    //     that.$store.dispatch('Login', userInfo)
-    //   }
-    // }
-  },
+  beforeCreate() {},
+  created() {},
+  destroyed() {},
   watch: {
     $route(to, from) {
       let that = this

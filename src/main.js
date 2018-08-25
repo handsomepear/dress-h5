@@ -8,7 +8,7 @@ import 'vant/lib/vant-css/index.css'
 import './styles/vant.css' // 定制vant css
 
 import 'lib-flexible' // rem
-import VueClipboard from 'vue-clipboard2'
+import VueClipboard from 'vue-clipboard2' // 粘贴板
 
 import './styles/app.css' // global css
 
@@ -20,23 +20,31 @@ import store from './store/index'
 
 import * as filters from './filters/filter'
 
+var browserRule = /^.*((iPhone)|(iPad)|(Safari))+.*$/
+if (browserRule.test(navigator.userAgent)) {
+  window.addEventListener('pageshow', function() {
+    pageShowHandle()
+  })
+}
 
-if (window.app_interface) {
-  window.appLoginFinish = (status, userId) => {
-    if (status == 200) {
-      that.active = 0
-      window.app_interface.getHersUserInfo('getUserInfo')
+// 登录
+function pageShowHandle() {
+  if (window.app_interface) {
+    window.appLoginFinish = (status, userId) => {
+      if (status == 200) {
+        that.active = 0
+        window.app_interface.getHersUserInfo('getUserInfo')
+      }
     }
+    window.app_interface.getHersUserInfo('getUserInfo')
+    window.app_interface.setTitleVisible(0)
   }
-  window.getUserInfo = function(userInfo) {
-    alert(userInfo)
-    userInfo = JSON.parse(userInfo)
-    if (userInfo.id !== 0) {
-      store.dispatch('Login', userInfo)
-    }
+}
+window.getUserInfo = function(userInfo) {
+  userInfo = JSON.parse(userInfo)
+  if (userInfo.id !== 0) {
+    store.dispatch('Login', userInfo)
   }
-  window.app_interface.getHersUserInfo('getUserInfo')
-  window.app_interface.setTitleVisible(0)
 }
 
 // 注册过滤器

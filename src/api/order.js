@@ -60,10 +60,12 @@ export function getExpressCompanys(resolve, reject) {
     url: '/api/order/getExpressCompanys'
   })
 }
-export function sendNotify(params) {
+
+// 检测支付状态
+export function checkPayResult(orderId) {
   return request({
     method: 'post',
-    url: '/api/order/sendNotify',
-    data: params
+    url: '/api/order/checkPayResult',
+    data: { orderId, orderId }
   })
 }

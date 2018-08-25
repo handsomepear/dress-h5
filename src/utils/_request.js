@@ -5,25 +5,14 @@ import { _getQueryString } from './_mm'
 import store from '../store'
 // console.log(store)
 const service = axios.create({
-  baseURL: 'https://kryptontest.j.cn', // 测试地址
+  baseURL: 'https://kryptontest.j.cn', // 测试环境
+  // baseURL: 'https://krypton-api.j.cn', // 线上环境
   timeout: 10000
 })
 
 // TOTO 检测是否登录 登录之后拿到她社区用户信息的id
 service.interceptors.request.use(
   config => {
-    // if (store.getters.userInfo.id == 0) {
-    //   Dialog.confirm({
-    //     title: '未登录会影响正常下单、收藏等操作哦',
-    //     confirmButtonText: '去登录',
-    //     cancelButtonText: '取消'
-    //   })
-    //     .then(() => {
-    //       window.app_interface.appLogin(1)
-    //     })
-    //     .catch(() => {})
-    //   return
-    // }
     config.method = config.method || 'post'
     if (config.method === 'post') {
       config.headers = { 'content-type': 'application/json' }
@@ -39,7 +28,7 @@ service.interceptors.request.use(
       config.params = {
         clientEnv: {
           app: 'hersh5',
-          jcnuserid: store.getters.jcnuserid ,
+          jcnuserid: store.getters.jcnuserid,
           v: '1.1.1'
         },
         ...config.params

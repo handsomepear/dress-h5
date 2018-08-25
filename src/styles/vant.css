@@ -13,6 +13,10 @@
 .van-nav-bar .van-icon {
   color: #ff6480!important;
 }
+
+#mine .van-nav-bar .van-icon  {
+  color: #fff!important;
+}
 .van-swipe__indicator--active {
   background-color: #ff6480 !important;
 }
