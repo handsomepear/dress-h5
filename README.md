@@ -14,3 +14,5 @@ npm run serve
 ```
 npm run build
 ```
+
+> vue-cli 3.0 + postcss-pxtorem + vant(有赞UI库) + vue全家桶
