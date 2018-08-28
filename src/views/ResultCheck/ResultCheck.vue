@@ -29,21 +29,23 @@ export default {
     }
     next()
   },
-  mounted() {
-    // window.location.href = decodeURIComponent(this.$route.query.mwebUrl)
+  deactivated () {
+    this.$loading.hide()
   },
   methods: {
     navigateBack() {
       this.$router.back()
     },
     payTry() {
+      this.$loading.show()
       window.location.href = decodeURIComponent(this.$route.query.mwebUrl)
     },
     // 检测用户支付结果
     checkResult() {
       let that = this
-      // window.location.href = decodeURIComponent(this.$route.query.mwebUrl)
+      this.$loading.show()
       checkPayResult(this.$route.query.orderId).then(res => {
+        that.$loading.hide()
         if (res.data.status == 1) {
           // 支付成功
           that.$router.push({ name: 'mine' })

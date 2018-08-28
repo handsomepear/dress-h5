@@ -15,10 +15,10 @@ const user = {
     editAddrInfo: {}, // 修改地址信息
     orderAddress: null, // 下订单的时候的地址信息
     addressList: [], // 地址列表
-    // userInfo: { id: 17192 },
-    // jcnuserid: 17192
-    userInfo: null,
-    jcnuserid: null
+    userInfo: { id: 111 },
+    jcnuserid: 111
+    // userInfo: null,
+    // jcnuserid: null
   },
 
   mutations: {
